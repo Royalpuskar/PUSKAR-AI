@@ -27,10 +27,10 @@ sendBtn.addEventListener("click", async () => {
 
         const data = await response.json();
         const reply = data.choices[0].message.content;
-        appendMessage("Pubskar Bot", reply);
+        appendMessage("Puskar AI", reply);
 
     } catch (error) {
-        appendMessage("Pubskar Bot", "Oops! Something went wrong.");
+        appendMessage("Puskar AI", "Oops! Something went wrong.");
         console.error(error);
     }
 });
