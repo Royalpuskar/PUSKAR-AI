@@ -1,20 +1,324 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Puskar AI Chat</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Puskar AI</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
 <body>
-    <div class="chat-container">
-        <h1>Puskar AI Chat</h1>
-        <div id="chat-box"></div>
-        <div class="input-container">
-            <input type="text" id="user-input" placeholder="Type your message here...">
-            <button id="send-btn">Send</button>
+
+  <!-- TOP NAV -->
+  <nav class="topnav" id="topnav">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a class="nav-logo" href="#" onclick="showPage('dashboard')">
+          <span class="logo-icon">✉</span>
+          <span class="logo-text">Puskar AI</span>
+        </a>
+        <div class="nav-links">
+          <a class="nav-link active" id="nav-dashboard"  onclick="showPage('dashboard')">📊 <span>Dashboard</span></a>
+          <a class="nav-link" id="nav-compose"   onclick="showPage('compose')">✍ <span>Compose</span></a>
+          <a class="nav-link" id="nav-reply"     onclick="showPage('reply')">↩ <span>Reply AI</span></a>
+          <a class="nav-link" id="nav-chat"      onclick="showPage('chat')">💬 <span>Chat</span></a>
         </div>
+      </div>
+      <div class="nav-right">
+        <button class="btn-icon" id="darkToggleBtn" onclick="toggleDark()" title="Toggle dark mode">🌙</button>
+        <button class="btn btn-primary" onclick="showPage('compose')">+ Compose AI</button>
+      </div>
     </div>
-    <script src="script.js"></script>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-content">
+
+    <!-- ===== DASHBOARD PAGE ===== -->
+    <section id="page-dashboard" class="page active">
+      <div class="page-header">
+        <h1>Dashboard</h1>
+        <p class="subtitle">Overview of your outreach performance.</p>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total Prospects</div>
+          <div class="stat-value">248</div>
+          <div class="stat-sub green">+12 this week</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Emails Sent</div>
+          <div class="stat-value">1,420</div>
+          <div class="stat-sub">All time</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Reply Rate</div>
+          <div class="stat-value">34%</div>
+          <div class="stat-sub green">Above average</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Total Replies</div>
+          <div class="stat-value">483</div>
+          <div class="stat-sub">Across all campaigns</div>
+        </div>
+      </div>
+      <div class="dashboard-bottom">
+        <div class="card pipeline-card">
+          <div class="card-header">
+            <h2>Pipeline Breakdown</h2>
+            <p class="subtitle">Current status of all prospects.</p>
+          </div>
+          <div class="bar-chart">
+            <div class="bar-group">
+              <div class="bar" style="height:80px;background:#6d56fa"></div>
+              <div class="bar-label">New</div>
+              <div class="bar-val">80</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar" style="height:120px;background:#5b7cf7"></div>
+              <div class="bar-label">Contacted</div>
+              <div class="bar-val">120</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar" style="height:60px;background:#38bdf8"></div>
+              <div class="bar-label">Replied</div>
+              <div class="bar-val">60</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar" style="height:45px;background:#a855f7"></div>
+              <div class="bar-label">Qualified</div>
+              <div class="bar-val">45</div>
+            </div>
+            <div class="bar-group">
+              <div class="bar" style="height:30px;background:#ec4899"></div>
+              <div class="bar-label">Lost</div>
+              <div class="bar-val">30</div>
+            </div>
+          </div>
+        </div>
+        <div class="card activity-card">
+          <div class="card-header">
+            <h2>Recent Activity</h2>
+            <p class="subtitle">Latest actions across your campaigns.</p>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <div class="activity-icon">⚡</div>
+              <div>
+                <div class="activity-title">Email sent to John Doe</div>
+                <div class="activity-time">2 hours ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">⚡</div>
+              <div>
+                <div class="activity-title">New prospect added: Acme Corp</div>
+                <div class="activity-time">5 hours ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">⚡</div>
+              <div>
+                <div class="activity-title">Campaign "Q2 Outreach" activated</div>
+                <div class="activity-time">Yesterday</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon">⚡</div>
+              <div>
+                <div class="activity-title">Reply received from Sarah Kim</div>
+                <div class="activity-time">Yesterday</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== COMPOSE PAGE ===== -->
+    <section id="page-compose" class="page">
+      <div class="page-header">
+        <h1>AI Compose — Outreach Email</h1>
+        <p class="subtitle">Generate a personalized sales email with AI.</p>
+      </div>
+      <div class="card compose-card">
+        <div class="form-group">
+          <label>Recipient Name</label>
+          <input type="text" id="compose-name" placeholder="e.g. John Smith" />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Company</label>
+            <input type="text" id="compose-company" placeholder="e.g. Acme Corp" />
+          </div>
+          <div class="form-group">
+            <label>Job Title</label>
+            <input type="text" id="compose-title" placeholder="e.g. Head of Sales" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Voice Tone</label>
+          <select id="compose-tone">
+            <option>Professional</option>
+            <option>Casual</option>
+            <option>Friendly</option>
+            <option>Assertive</option>
+            <option>Humorous</option>
+            <option>Positive</option>
+            <option>Persuasive</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Additional Context (Optional)</label>
+          <textarea id="compose-context" rows="3" placeholder="e.g. We met at SaaStr, focus on how our tool saves 10 hours/week..."></textarea>
+        </div>
+        <button class="btn btn-primary btn-lg" onclick="generateOutreachEmail()">
+          <span id="compose-btn-text">✨ Generate Email</span>
+        </button>
+      </div>
+
+      <!-- Generated email output -->
+      <div class="card result-card" id="compose-result" style="display:none">
+        <div class="result-header">
+          <h2>Generated Email</h2>
+          <button class="btn btn-ghost" onclick="copyCompose()">
+            <span id="copy-compose-label">📋 Copy All</span>
+          </button>
+        </div>
+        <div class="form-group">
+          <label>Subject Line</label>
+          <input type="text" id="compose-subject-out" />
+        </div>
+        <div class="form-group">
+          <label>Email Body</label>
+          <textarea id="compose-body-out" rows="10"></textarea>
+        </div>
+        <div class="result-actions">
+          <button class="btn btn-outline" onclick="generateOutreachEmail()">🔄 Regenerate</button>
+          <button class="btn btn-ghost" onclick="copyCompose()">📋 Copy to Clipboard</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== REPLY ASSISTANT PAGE ===== -->
+    <section id="page-reply" class="page">
+      <div class="page-header">
+        <h1>Email Reply Assistant</h1>
+        <p class="subtitle">Paste an email you received — AI writes a polished reply for you.</p>
+      </div>
+      <div class="card">
+        <div class="form-group">
+          <label>Original Email <span class="badge">Paste here</span></label>
+          <textarea id="reply-original" rows="7" placeholder="Paste the email you received here..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Reply Tone</label>
+            <select id="reply-tone">
+              <option>Professional</option>
+              <option>Casual</option>
+              <option>Friendly</option>
+              <option>Assertive</option>
+              <option>Humorous</option>
+              <option>Positive</option>
+              <option>Persuasive</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Context (Optional)</label>
+            <input type="text" id="reply-context" placeholder="e.g. I'd like to schedule a demo..." />
+          </div>
+        </div>
+        <button class="btn btn-primary btn-lg" onclick="generateReply()">
+          <span id="reply-btn-text">✨ Generate Reply</span>
+        </button>
+      </div>
+
+      <!-- Generated reply output -->
+      <div class="card result-card" id="reply-result" style="display:none">
+        <div class="result-header">
+          <h2>Generated Reply</h2>
+          <button class="btn btn-ghost" onclick="copyReply()">
+            <span id="copy-reply-label">📋 Copy All</span>
+          </button>
+        </div>
+        <div class="form-group">
+          <label>Subject</label>
+          <div class="result-box" id="reply-subject-out"></div>
+        </div>
+        <div class="form-group">
+          <label>Body</label>
+          <div class="result-box result-body" id="reply-body-out"></div>
+        </div>
+        <div class="result-actions">
+          <button class="btn btn-outline" onclick="document.getElementById('reply-result').style.display='none'">🔄 Start Over</button>
+          <button class="btn btn-ghost" onclick="copyReply()">📋 Copy to Clipboard</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CHAT PAGE ===== -->
+    <section id="page-chat" class="page">
+
+      <!-- Name Prompt Screen -->
+      <div id="name-prompt" class="name-prompt-screen">
+        <div class="name-prompt-icon">✨</div>
+        <h1>Hello, I'm Puskar AI</h1>
+        <p class="subtitle">Your intelligent sales assistant. What's your name?</p>
+        <div class="name-prompt-form">
+          <input type="text" id="user-name-input" placeholder="Enter your name (optional)" onkeydown="if(event.key==='Enter') startChat()" />
+          <button class="btn btn-primary btn-lg" onclick="startChat()">Start Chatting ⚡</button>
+        </div>
+      </div>
+
+      <!-- Chat UI (hidden until name entered) -->
+      <div id="chat-ui" style="display:none" class="chat-wrapper">
+        <div class="chat-topbar">
+          <div class="chat-title-row">
+            <div class="chat-avatar-sm">💬</div>
+            <div>
+              <div class="chat-name">Puskar AI Chat</div>
+              <div class="chat-user-label" id="chat-user-label"></div>
+            </div>
+          </div>
+          <div class="chat-controls">
+            <button class="btn btn-outline btn-sm" id="tts-toggle" onclick="toggleTts()">🔇 Voice Off</button>
+            <button class="btn btn-outline btn-sm" id="stop-speak-btn" onclick="stopSpeaking()" style="display:none">⏹ Stop</button>
+          </div>
+        </div>
+
+        <div class="chat-messages" id="chat-messages">
+          <!-- Messages injected by JS -->
+        </div>
+
+        <!-- Quick replies -->
+        <div class="quick-replies" id="quick-replies">
+          <button class="qr-btn" onclick="sendQuick(this)">What can you help me with?</button>
+          <button class="qr-btn" onclick="sendQuick(this)">Give me cold email tips</button>
+          <button class="qr-btn" onclick="sendQuick(this)">How do I improve reply rates?</button>
+          <button class="qr-btn" onclick="sendQuick(this)">Suggest a follow-up strategy</button>
+          <button class="qr-btn" onclick="sendQuick(this)">Explain AI in sales</button>
+          <button class="qr-btn" onclick="sendQuick(this)">What's a good subject line?</button>
+        </div>
+
+        <!-- Input bar -->
+        <div class="chat-input-bar">
+          <textarea id="chat-input" class="chat-textarea" rows="1"
+            placeholder="Type a message... (Enter to send, Shift+Enter for new line)"
+            onkeydown="chatKeyDown(event)"></textarea>
+          <div class="chat-actions">
+            <button class="btn-icon" id="mic-btn" onclick="toggleMic()" title="Voice input">🎤</button>
+            <button class="btn btn-primary btn-icon-send" onclick="sendChatMessage()" id="send-btn">➤</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ERROR TOAST -->
+  <div class="toast" id="toast"></div>
+
+  <script src="script.js"></script>
 </body>
 </html>
