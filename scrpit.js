@@ -2,14 +2,14 @@ const chatBox = document.getElementById("chat-box");
 const userInput = document.getElementById("user-input");
 const sendBtn = document.getElementById("send-btn");
 
-// 🔑 Replace YOUR_API_KEY with your OpenAI API key
+// 🔑 Replace with your OpenAI API key (keep secret)
 const API_KEY = "sk-XXXXXXXXXXXXXXXXXXXXXXXXXXXX";
 
 sendBtn.addEventListener("click", async () => {
     const message = userInput.value.trim();
     if (!message) return;
 
-    appendMessage("You", message);
+    appendMessage("user", message);
     userInput.value = "";
 
     try {
@@ -27,17 +27,18 @@ sendBtn.addEventListener("click", async () => {
 
         const data = await response.json();
         const reply = data.choices[0].message.content;
-        appendMessage("Puskar AI", reply);
+        appendMessage("bot", reply);
 
     } catch (error) {
-        appendMessage("Puskar AI", "Oops! Something went wrong.");
+        appendMessage("bot", "Oops! Something went wrong.");
         console.error(error);
     }
 });
 
 function appendMessage(sender, text) {
     const msg = document.createElement("p");
-    msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
+    msg.textContent = text;
+    msg.className = sender === "user" ? "user-msg" : "bot-msg";
     chatBox.appendChild(msg);
     chatBox.scrollTop = chatBox.scrollHeight;
 }
