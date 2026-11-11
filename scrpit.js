@@ -1,9 +1,5 @@
-// ── PUT YOUR OPENAI API KEY HERE ──────────────────
-const OPENAI_API_KEY = " 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   ";
-// ─────────────────────────────────────────────────
-
-const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
-const MODEL = "gpt-3.5-turbo";
+// Puskar AI frontend: credentials live on the private server, never in browser code.
+// Start server.mjs for live AI features; static hosting provides a UI preview.
 
 // ─────────────────────────────────────────────────
 // STATE
@@ -65,33 +61,25 @@ function showToast(msg, isError = false) {
 // OPENAI API CALL
 // ─────────────────────────────────────────────────
 async function callOpenAI(messages, jsonMode = false) {
-  const body = {
-    model: MODEL,
-    max_tokens: 1024,
-    messages,
-  };
-  if (jsonMode) body.response_format = { type: "json_object" };
-
-  const res = await fetch(OPENAI_API_URL, {
+  const res = await fetch("/api/chat", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${OPENAI_API_KEY}`,
-    },
-    body: JSON.stringify(body),
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ messages, jsonMode }),
   });
-
   if (!res.ok) {
-    const err = await res.json().catch(() => ({}));
-    throw new Error(err?.error?.message || "OpenAI API error: " + res.status);
+    const data = await res.json().catch(() => ({}));
+    if (res.status === 404 || res.status === 405) {
+      throw new Error("AI endpoint unavailable. Start the Node server with an API credential; GitHub Pages is a static preview.");
+    }
+    throw new Error(data.error || "AI request failed (" + res.status + ")");
   }
-
   const data = await res.json();
-  return data.choices[0]?.message?.content || "";
+  if (typeof data.reply !== "string") throw new Error("Invalid AI server response");
+  return data.reply;
 }
 
 // ─────────────────────────────────────────────────
-// COMPOSE — OUTREACH EMAIL
+// // COMPOSE — OUTREACH EMAIL
 // ─────────────────────────────────────────────────
 async function generateOutreachEmail() {
   const name    = document.getElementById("compose-name").value.trim();
@@ -449,45 +437,3 @@ function stopSpeaking() {
   document.getElementById("stop-speak-btn").style.display = "none";
 }
 
-
-discription
-// Get container
-const container = document.getElementById("animation-container");
-
-// Scene, Camera, Renderer
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, container.clientWidth/container.clientHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(container.clientWidth, container.clientHeight);
-container.appendChild(renderer.domElement);
-
-// Cube with colored sides
-const geometry = new THREE.BoxGeometry();
-const materials = [
-    new THREE.MeshBasicMaterial({ color: 0xff4d6d }), // Email Generation
-    new THREE.MeshBasicMaterial({ color: 0x4d94ff }), // Smart Replies
-    new THREE.MeshBasicMaterial({ color: 0x1aff8c }), // Mobile-Friendly
-    new THREE.MeshBasicMaterial({ color: 0xffbf00 }), // Animations
-    new THREE.MeshBasicMaterial({ color: 0xff66ff }), // AI Productivity
-    new THREE.MeshBasicMaterial({ color: 0x33ffff })  // Logo
-];
-const cube = new THREE.Mesh(geometry, materials);
-scene.add(cube);
-
-camera.position.z = 5;
-
-// Animation loop
-function animate() {
-    requestAnimationFrame(animate);
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
-    renderer.render(scene, camera);
-}
-animate();
-
-// Make canvas responsive
-window.addEventListener('resize', () => {
-    camera.aspect = container.clientWidth / container.clientHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(container.clientWidth, container.clientHeight);
-});
